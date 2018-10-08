@@ -1,0 +1,12 @@
+**/*.class
+**/*.suo
+**/*.user
+**/*.vspscc
+**/*.sln.cache
+**/bin
+**/obj
+**/Debug
+**/TempPE
+**/thumbs.db
+**/.svn
+PromotionSources

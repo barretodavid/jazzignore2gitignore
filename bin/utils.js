@@ -10,18 +10,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var find = __importStar(require("find"));
 var fs_1 = require("fs");
 var path_1 = require("path");
-var child_process_1 = require("child_process");
 function extractIgnorePatterns(awkString) {
     var awkArray = awkString.split('\n').slice(0, -1);
     var ignore = awkArray.reduce(function (ignore, curr) {
@@ -35,8 +26,9 @@ function extractIgnorePatterns(awkString) {
     }, { plain: [], recursive: [] });
     return ignore;
 }
+exports.extractIgnorePatterns = extractIgnorePatterns;
 function createGitignoreFile(path, ignorePatterns) {
-    var logger = fs_1.createWriteStream(path + "/.gitignore", { flags: 'w' });
+    var logger = fs_1.createWriteStream(path_1.join(path, '.gitignore'), { flags: 'w' });
     ignorePatterns.recursive.forEach(function (pattern) {
         logger.write("**/" + pattern + "\n");
     });
@@ -45,17 +37,4 @@ function createGitignoreFile(path, ignorePatterns) {
     });
     logger.end();
 }
-function main() {
-    find.file('.jazzignore', '../StreamP3/', function (files) {
-        files.map(function (file) {
-            var path = path_1.dirname(file);
-            var parser = path_1.join(__dirname, 'parser.awk');
-            var awk = child_process_1.exec("awk -f " + parser + " '" + file + "'");
-            awk.stdout.on('data', function (awkString) {
-                var ignorePatterns = extractIgnorePatterns(awkString);
-                createGitignoreFile(path, ignorePatterns);
-            });
-        });
-    });
-}
-main();
+exports.createGitignoreFile = createGitignoreFile;

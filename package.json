@@ -1,31 +1,30 @@
 {
-  "name": "jazzignore2gitignore",
+  "name": "jazz2git",
   "version": "0.0.1",
   "description": "Transform .jazzignore files to .gitignore files",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
+  "bin": {
+    "jazz2git": "./bin/index.js"
   },
+  "preferGlobal": true,
   "scripts": {
-    "tsc:init": "tsc --init",
-    "start": "tsc",
-    "start:watch": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "tsc",
+    "compile:watch": "tsc -w",
+    "copy": "cp src/parser.awk bin/parser.awk",
+    "clear": "rm -rf dist",
+    "permission": "chmod +x bin/index.js",
+    "build": "npm run clear && npm run compile && npm run copy && npm run permission"
   },
   "author": "David Barreto <barretollano@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@types/ramda": "^0.25.39",
-    "awk": "^1.0.0",
-    "find": "^0.2.9",
-    "folktale": "^2.3.1",
-    "monet": "^0.8.10"
+    "command-line-args": "^5.0.2",
+    "command-line-usage": "^5.0.5",
+    "find": "^0.2.9"
   },
   "devDependencies": {
+    "@types/command-line-args": "^5.0.0",
     "@types/find": "^0.2.1",
     "@types/node": "^10.11.4",
-    "ramda": "^0.25.0",
-    "ts-node": "^7.0.1",
     "typescript": "^3.1.1"
   }
 }
